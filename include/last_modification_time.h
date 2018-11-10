@@ -16,6 +16,7 @@ double last_modification_time(const std::string & path);
 #include <stdlib.h>
 #include <wchar.h>
 #include <cassert>
+#include <iostream>
 
 double last_modification_time(const std::string & path)
 {
@@ -26,6 +27,8 @@ double last_modification_time(const std::string & path)
   std::wstring w_path = std::wstring(path.begin(), path.end());
   fh = CreateFileW(w_path.c_str(), GENERIC_READ | FILE_WRITE_ATTRIBUTES,
       0, NULL, OPEN_EXISTING, 0, NULL);
+  int err = GetLastError();
+  std::cout << err << std::endl;
   if(fh == INVALID_HANDLE_VALUE)
   {
     return -1;
@@ -36,6 +39,7 @@ double last_modification_time(const std::string & path)
   }
   // https://stackoverflow.com/a/19709740/148668
   __int64* val = (__int64*) &modtime;
+  CloseHandle(fh);
   return static_cast<double>(*val) / 10000000.0 - 11644473600.0;
 }
 #else

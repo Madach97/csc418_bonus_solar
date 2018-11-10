@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <errno.h>
+#include <iostream>
 
 // Read a shader specification from a .json file
 //
@@ -41,7 +43,10 @@ bool read_json(
   using json = nlohmann::json;
 
   std::ifstream infile( filename );
-  if( !infile ) return false;
+  if (!infile) {
+	  std::cout << errno << std::endl;
+	  return false;
+  }
   json j;
   infile >> j;
 
