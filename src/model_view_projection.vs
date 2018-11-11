@@ -25,11 +25,13 @@ void main()
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  vec4 vector = vec4(pos_vs_in,1.0);
-  if(is_moon){
-    mat4 proj = scale(0.3)
-
-  }
-
+    vec4 in_vec = vec4(pos_vs_in,1.0);
+    bool moon = is_moon;
+    if(moon){
+      mat4 scaling = uniform_scale(0.3);
+	  in_vec = scaling*in_vec;
+    }
+    mat4 m = model(moon, animation_seconds);
+    pos_cs_in = proj*view*m*in_vec;
   /////////////////////////////////////////////////////////////////////////////
 }

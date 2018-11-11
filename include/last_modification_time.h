@@ -28,7 +28,6 @@ double last_modification_time(const std::string & path)
   fh = CreateFileW(w_path.c_str(), GENERIC_READ | FILE_WRITE_ATTRIBUTES,
       0, NULL, OPEN_EXISTING, 0, NULL);
   int err = GetLastError();
-  std::cout << err << std::endl;
   if(fh == INVALID_HANDLE_VALUE)
   {
     return -1;
