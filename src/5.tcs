@@ -21,8 +21,6 @@ void main()
   gl_TessLevelOuter[1] = 5;
   gl_TessLevelOuter[2] = 5;
   gl_TessLevelInner[0] = 5;
-
-  model_view_projection(pos_en_in);
   /////////////////////////////////////////////////////////////////////////////
 }
 
