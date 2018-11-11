@@ -12,7 +12,7 @@ mat4 model(bool is_moon, float time)
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
   if(is_moon){
-     float angle = time*M_PI/2;
+     float angle = -time*M_PI/2;
      return rotate_about_y(angle)*translate(vec3(2,0,0));
   }
   return identity();
