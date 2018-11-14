@@ -10,7 +10,15 @@ float perlin_noise( vec3 st)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  return 0;
+  int x = int(st.x);
+  int y = int(st.y);
+  int z = int(st.z);
+  int x1 = x + 1;
+  int y1 = y + 1;
+  int z1 = z + 1;
+
+
+   return 0;
   /////////////////////////////////////////////////////////////////////////////
 }
 

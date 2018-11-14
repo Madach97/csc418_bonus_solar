@@ -27,21 +27,21 @@ void main()
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  vec4 vector = interpolate(gl_TessCoord, normalize(pos_es_in[0]), normalize(pos_es_in[1]), normalize(pos_es_in[2]));
-  sphere_fs_in = vector.xyz;
+  vec4 vector = interpolate(gl_TessCoord, pos_es_in[0], pos_es_in[1], pos_es_in[2]);
+  sphere_fs_in = normalize(vector.xyz);
+  vector = vec4(sphere_fs_in, 1);
   if(is_moon){
-      mat4 scaling = uniform_scale(0.3);
-	  vector = scaling*vector;
+     mat4 scaling = uniform_scale(0.3);
+     vector = scaling*vec4(sphere_fs_in, 1);
   }
   mat4 m = model(is_moon, animation_seconds);
-  view_pos_fs_in = view*m*normalize(vector);
+  view_pos_fs_in = view*m*vector;
   pos_fs_in = proj*view_pos_fs_in;
 
   vec3 n = sphere_fs_in; 
-  mat4 N = inverse(transpose(m));
-  normal_fs_in = normalize((N*vec4(n, 1.0)).xyz);   
+  mat4 N = inverse(transpose(view*m));
+  normal_fs_in = (N*vec4(n, 1.0)).xyz;   
   gl_Position = pos_fs_in;
- 
   /////////////////////////////////////////////////////////////////////////////
 }
 

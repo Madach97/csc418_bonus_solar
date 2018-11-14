@@ -18,15 +18,28 @@ void main()
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  vec4 light = vec4(-1, -4, 2.7, 1);
-  mat4 m = model(is_moon, animation_seconds)  
-  vec3 l = (view*m*light).xyz;
+  vec4 light = vec4(100, 1, 100, 1);
+  mat4 rotate =  mat4(
+  cos(animation_seconds*M_PI/2), 0, sin(animation_seconds*M_PI/2),0,
+    0,        1,    0,      0,
+  -sin(animation_seconds*M_PI/2),0, cos(animation_seconds*M_PI/2),0,
+    0,        0,    0,      1);
+  mat4 translate = mat4(
+  1,0,0,0,
+  0,1,0,0,
+  0,  0,  1,  0,
+  0,0,4,1);
+  mat4 model = rotate*translate;
+  vec3 l = normalize((view*model*light).xyz);
   vec3 v = (view_pos_fs_in).xyz;
   vec3 n = normal_fs_in;
   float p = 100;
-  vec3 ka = vec3(0.5, 0.5, 0.5);
+  vec3 ka = vec3(0, 0, 0);
   vec3 kd = vec3(0, 0, 1);
-  vec3 ks = vec3(1, 1, 1);
+  if(is_moon){
+    kd = vec3(0.5,0.5,0.5);
+  }
+  vec3 ks = vec3(0.9, 0.9, 0.9);
   vec3 rgb = blinn_phong(ka, kd, ks, p, n, v, l);
   color = rgb;
   /////////////////////////////////////////////////////////////////////////////
