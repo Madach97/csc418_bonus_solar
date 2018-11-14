@@ -39,7 +39,7 @@ double last_modification_time(const std::string & path)
   CloseHandle(fh);
   // https://stackoverflow.com/a/19709740/148668
   __int64* val = (__int64*) &modtime;
-  CloseHandle(fh);
+  //CloseHandle(fh);
   return static_cast<double>(*val) / 10000000.0 - 11644473600.0;
 }
 #else
