@@ -25,15 +25,6 @@ float smooth_step( float f)
 vec3 smooth_step( vec3 f)
 {
   /////////////////////////////////////////////////////////////////////////////
-  // Replace with your code 
-  if(lessThanEqual(f, 0)){
-     return 0;
-  }
-  if(greaterThanEqual(f, 0) && lessThanEqual(f, 1) ){
-     return (3*f*f) - (2*f*f*f); 
-  }
-  else{
-    return 1.0;
-  }
+  return vec3(smooth_step(f.x), smooth_step(f.y), smooth_step(f.z));
   /////////////////////////////////////////////////////////////////////////////
 }

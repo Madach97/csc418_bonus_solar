@@ -19,6 +19,39 @@ void main()
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  color = vec3(1,1,1);
+  // referred to  https://www.redblobgames.com/maps/terrain-from-noise/
+  vec4 light = vec4(100, 1, 100, 1);
+  mat4 rotate =  mat4(
+  cos(animation_seconds*M_PI/2), 0, sin(animation_seconds*M_PI/2),0,
+    0,        1,    0,      0,
+  -sin(animation_seconds*M_PI/2),0, cos(animation_seconds*M_PI/2),0,
+    0,        0,    0,      1);
+  mat4 translate = mat4(
+  1,0,0,0,
+  0,1,0,0,
+  0,0,1,0,
+  0,0,4,1);
+  mat4 model = rotate*translate;
+  vec3 l = normalize((view*model*light).xyz);
+  vec3 v = normalize((-1*view_pos_fs_in).xyz);
+  vec3 n = normalize(normal_fs_in);
+  float p = 500;
+  vec3 ka = vec3(0, 0, 0);
+  vec3 kd = vec3(0, 0, 1);
+  if(is_moon){
+    kd = vec3(0.5,0.5,0.5);
+  }
+  vec3 ks = vec3(1, 1 ,1);
+  vec3 rgb = blinn_phong(ka, kd, ks, p, n, v, l);
+  float x = sphere_fs_in.x;
+  float y = sphere_fs_in.y;
+  float z = sphere_fs_in.z;
+  float secs = animation_seconds;
+  //lantern
+ // color = rgb *( perlin_noise(vec3(2*x, 4*(x+y), 2*x+y+z)) + perlin_noise(vec3(-2*x, -x-y, -2*(x+y+z))));
+ 
+  color = rgb + (0.25)*vec3(0, 0, 1)*( perlin_noise(vec3(2*cos(x), 4*sin(x+y), 2*x+y+z)) + perlin_noise(vec3(-2*x, -x-y, -2*(x+y+z))));
+
   /////////////////////////////////////////////////////////////////////////////
+
 }
