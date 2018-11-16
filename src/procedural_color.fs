@@ -46,12 +46,7 @@ void main()
   float x = sphere_fs_in.x;
   float y = sphere_fs_in.y;
   float z = sphere_fs_in.z;
-  float secs = animation_seconds;
-  //lantern
- // color = rgb *( perlin_noise(vec3(2*x, 4*(x+y), 2*x+y+z)) + perlin_noise(vec3(-2*x, -x-y, -2*(x+y+z))));
- 
-  color = rgb + (0.25)*vec3(0, 0, 1)*( perlin_noise(vec3(2*cos(x), 4*sin(x+y), 2*x+y+z)) + perlin_noise(vec3(-2*x, -x-y, -2*(x+y+z))));
-
+  color = rgb * (1+ 2*perlin_noise(vec3(exp(x*y), 2*x, -2*x+exp(z/5))) + (6*(perlin_noise(vec3(2*x, y*(455+exp(x/99)+exp(z)), x*(x+(y*y*z)))))));
   /////////////////////////////////////////////////////////////////////////////
 
 }

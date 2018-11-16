@@ -10,6 +10,7 @@ vec3 random_direction( vec3 seed)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  return normalize(vec3(random2(seed), 1.0));
+  vec2 vector = random2(seed);
+  return normalize(vec3(sin(seed.x)*cos(seed.y), sin(seed.x)*sin(seed.y), cos(seed.x)));
   /////////////////////////////////////////////////////////////////////////////
 }

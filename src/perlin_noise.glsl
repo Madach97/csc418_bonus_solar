@@ -21,10 +21,10 @@ float perlin_noise(vec3 st)
   vec3 fbr = vec3(x+1, y, z);
   vec3 ftl = vec3(x, y+1, z); 
   vec3 ftr = vec3(x+1, y+1, z);
-  vec3 btr = vec3(x+1, y+1, z-1); //back top right; z-1 since we are looking in the -ve z direction
-  vec3 btl = vec3(x, y+1, z-1); 
-  vec3 bbr = vec3(x+1, y, z-1);
-  vec3 bbl = vec3(x, y, z-1);
+  vec3 btr = vec3(x+1, y+1, z+1); //back top right; z-1 since we are looking in the -ve z direction
+  vec3 btl = vec3(x, y+1, z+1); 
+  vec3 bbr = vec3(x+1, y, z+1);
+  vec3 bbl = vec3(x, y, z+1);
 
   vec3 dist_fbl = st - fbl; 
   vec3 dist_fbr = st - fbr;
@@ -53,9 +53,9 @@ float perlin_noise(vec3 st)
   float dot_bbr = dot(dist_bbr, grad_bbr); 
   float dot_bbl = dot(dist_bbl, grad_bbl); 
 
-  float wx = fract(st.x);
-  float wy = fract(st.y);
-  float wz = fract(st.z);
+  float wx = st.x - x;
+  float wy = st.y - y;
+  float wz = st.z - z ;
 
   float ix0 = dot_fbl + smooth_step(wx)*(dot_fbr - dot_fbl);
   float ix1 = dot_ftl + smooth_step(wx)*(dot_ftr - dot_ftl);
