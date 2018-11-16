@@ -11,7 +11,7 @@ float improved_perlin_noise( vec3 st)
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code
 
-float x = floor(st.x);
+  float x = floor(st.x);
   float y = floor(st.y);
   float z = floor(st.z);
 
@@ -19,10 +19,10 @@ float x = floor(st.x);
   vec3 fbr = vec3(x+1, y, z);
   vec3 ftl = vec3(x, y+1, z); 
   vec3 ftr = vec3(x+1, y+1, z);
-  vec3 btr = vec3(x+1, y+1, z-1); //back top right; z-1 since we are looking in the -ve z direction
-  vec3 btl = vec3(x, y+1, z-1); 
-  vec3 bbr = vec3(x+1, y, z-1);
-  vec3 bbl = vec3(x, y, z-1);
+  vec3 btr = vec3(x+1, y+1, z+1); //back top right; z-1 since we are looking in the -ve z direction
+  vec3 btl = vec3(x, y+1, z+1); 
+  vec3 bbr = vec3(x+1, y, z+1);
+  vec3 bbl = vec3(x, y, z+1);
 
   vec3 dist_fbl = st - fbl; 
   vec3 dist_fbr = st - fbr;
@@ -51,9 +51,9 @@ float x = floor(st.x);
   float dot_bbr = dot(dist_bbr, grad_bbr); 
   float dot_bbl = dot(dist_bbl, grad_bbl); 
 
-  float wx = fract(st.x);
-  float wy = fract(st.y);
-  float wz = fract(st.z);
+  float wx = st.x - x;
+  float wy = st.y - y;
+  float wz = st.z - z ;
 
   float ix0 = dot_fbl + improved_smooth_step(wx)*(dot_fbr - dot_fbl);
   float ix1 = dot_ftl + improved_smooth_step(wx)*(dot_ftr - dot_ftl);
@@ -63,7 +63,7 @@ float x = floor(st.x);
   float iy1 = ix2 + improved_smooth_step(wy)*(ix3 - ix2);
   float iz0 = iy0 + improved_smooth_step(wz)*(iy1 - iy0);
 
-  return iz0;
+  return abs(iz0);
   /////////////////////////////////////////////////////////////////////////////
 }
 

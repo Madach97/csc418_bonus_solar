@@ -65,7 +65,7 @@ float perlin_noise(vec3 st)
   float iy1 = ix2 + smooth_step(wy)*(ix3 - ix2);
   float iz0 = iy0 + smooth_step(wz)*(iy1 - iy0);
 
-  return iz0;
+  return iz0 - (sqrt(3/4)); //since perlin noise returns values between -sqrt(3/4) and sqrt(3/4) according to this source http://digitalfreepen.com/2017/06/20/range-perlin-noise.html
   /////////////////////////////////////////////////////////////////////////////
 }
 

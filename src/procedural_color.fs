@@ -46,7 +46,8 @@ void main()
   float x = sphere_fs_in.x;
   float y = sphere_fs_in.y;
   float z = sphere_fs_in.z;
-  color = rgb * (1+ 2*perlin_noise(vec3(exp(x*y), 2*x, -2*x+exp(z/5))) + (6*(perlin_noise(vec3(2*x, y*(455+exp(x/99)+exp(z)), x*(x+(y*y*z)))))));
+  float value = (6*(perlin_noise(vec3(2*x, y*(455+exp(x/99)+exp(z)), x*(x+(y*z)))))); //2*perlin_noise(vec3(exp(x*y), 2*x, -2*x+exp(z/5)));//perlin_noise(sphere_fs_in);
+  color = rgb * (1 + 2*perlin_noise(vec3(exp(x*y), 2*x, -2*x+exp(z/5))) + (6*(perlin_noise(vec3(2*x, y*(455+exp(x/99)+exp(z)), x*(x+(y*y*z)))))));
   /////////////////////////////////////////////////////////////////////////////
 
 }
