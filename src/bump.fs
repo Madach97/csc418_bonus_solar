@@ -27,6 +27,8 @@ void main()
   vec3 B;
   tangent(normal_fs_in, T, B);
   //calculate the new normal
+  T = normalize(T);
+  B = normalize(B);
   vec3 n = cross(1000*((p*(sphere_fs_in + (0.0001*T))) - (p*sphere_fs_in)), 1000*((p*(sphere_fs_in + (0.0001*B))) - (p*sphere_fs_in))); 
   n = normalize(n);
   vec4 light = vec4(100, 1, 100, 1);
@@ -49,6 +51,8 @@ void main()
   if(is_moon){
     kd = vec3(0.5,0.5,0.5);
   }
+  mat4 N = inverse(transpose(view*model));
+  n = normalize((N*vec4(n, 1.0)).xyz);   
   vec3 ks = vec3(1, 1 ,1);
   vec3 rgb = blinn_phong(ka, kd, ks, shiny, n, v, l);
 
