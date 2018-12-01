@@ -12,7 +12,11 @@ uniform mat4 proj;
 //                                number of seconds animation has been running
 uniform float animation_seconds;
 //                     whether we're rendering the moon or the other object
-uniform bool is_moon;
+uniform bool is_earth;
+uniform bool is_venus;
+uniform bool is_sun;
+uniform bool is_mercury;
+
 // Inputs:
 //                  3D position of mesh vertex
 in vec3 pos_vs_in; 
@@ -26,12 +30,20 @@ void main()
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
     vec4 in_vec = vec4(pos_vs_in,1.0);
-    bool moon = is_moon;
-    if(moon){
-      mat4 scaling = uniform_scale(0.3);
+    if(is_earth){
+      mat4 scaling = uniform_scale(0.5);
 	  in_vec = scaling*in_vec;
     }
-    mat4 m = model(moon, animation_seconds);
+	else if(is_venus){
+	  mat4 scaling = uniform_scale(0.45);
+	  in_vec = scaling*in_vec;
+	}
+
+	else if(is_mercury){
+	  mat4 scaling = uniform_scale(0.3);
+	  in_vec = scaling*in_vec;
+	}
+    mat4 m = model(is_sun, is_mercury, is_venus, is_earth, animation_seconds);
     pos_cs_in = proj*view*m*in_vec;
   /////////////////////////////////////////////////////////////////////////////
 }
