@@ -8,7 +8,10 @@ layout(triangles, equal_spacing, ccw) in;
 uniform mat4 view;
 uniform mat4 proj;
 uniform float animation_seconds;
-uniform bool is_moon;
+uniform bool is_earth;
+uniform bool is_venus;
+uniform bool is_sun;
+uniform bool is_mercury;
 // Inputs:
 //                    array of 3 3D patch corner positions
 in vec4 pos_es_in[];
@@ -30,11 +33,19 @@ void main()
   vec4 vector = interpolate(gl_TessCoord, pos_es_in[0], pos_es_in[1], pos_es_in[2]);
   sphere_fs_in = normalize(vector.xyz);
   vector = vec4(sphere_fs_in, 1);
-  if(is_moon){
-     mat4 scaling = uniform_scale(0.3);
+  if(is_earth){
+      mat4 scaling = uniform_scale(0.5);
+      vector = scaling*vec4(sphere_fs_in, 1);
+  }
+  else if(is_venus){
+	 mat4 scaling = uniform_scale(0.45);
      vector = scaling*vec4(sphere_fs_in, 1);
   }
-  mat4 m = model(is_moon, animation_seconds);
+  else if(is_mercury){
+	 mat4 scaling = uniform_scale(0.3);
+     vector = scaling*vec4(sphere_fs_in, 1);
+  }
+  mat4 m = model(is_sun, is_mercury, is_venus, is_earth, animation_seconds);
   view_pos_fs_in = view*m*vector;
   pos_fs_in = proj*view_pos_fs_in;
 
