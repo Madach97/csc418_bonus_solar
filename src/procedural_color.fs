@@ -62,10 +62,13 @@ void main()
 	float noise =  perlin_noise(sphere_fs_in) + 0.5*perlin_noise(2*sphere_fs_in) + 0.25*perlin_noise(4*sphere_fs_in);
 	float val = noise;
     if(val > 0.5){
-	   	color = vec3(1, 1, 0)*noise;
+	   	color = vec3(1, 1, 0)*cos(noise);
+	}
+	else if(val > 0.3){
+		color = vec3(1, 0, 0)*sin(noise + mod(animation_seconds, 30))*2;
 	}
 	else{
-		color = vec3(1, 0, 0)*noise*2;
+	  	color = vec3(1, 0, 0)*sin(noise)*2;
 	}
 
  }
