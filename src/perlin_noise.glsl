@@ -6,66 +6,80 @@
 // Returns a smooth value between (-1,1)
 //
 // expects: random_direction, smooth_step
-float perlin_noise(vec3 st) 
-{
-  /////////////////////////////////////////////////////////////////////////////
-  // Replace with your code 
 
-  //based on the Perlin noise for 2D from https://en.wikipedia.org/wiki/Perlin_noise
+// this noise code is from https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
+//	Simplex 3D Noise 
+//	by Ian McEwan, Ashima Arts
+//
 
-  float x = floor(st.x);
-  float y = floor(st.y);
-  float z = floor(st.z);
+vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
+vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
 
-  vec3 fbl = vec3(x, y, z); // front bottom left
-  vec3 fbr = vec3(x+1, y, z);
-  vec3 ftl = vec3(x, y+1, z); 
-  vec3 ftr = vec3(x+1, y+1, z);
-  vec3 btr = vec3(x+1, y+1, z+1); //back top right; z-1 since we are looking in the -ve z direction
-  vec3 btl = vec3(x, y+1, z+1); 
-  vec3 bbr = vec3(x+1, y, z+1);
-  vec3 bbl = vec3(x, y, z+1);
+float perlin_noise(vec3 v){ 
+  const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
+  const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
 
-  vec3 dist_fbl = st - fbl; 
-  vec3 dist_fbr = st - fbr;
-  vec3 dist_ftl = st - ftl; 
-  vec3 dist_ftr = st - ftr;
-  vec3 dist_btr = st - btr; 
-  vec3 dist_btl = st - btl; 
-  vec3 dist_bbr = st - bbr;
-  vec3 dist_bbl = st - bbl;
+// First corner
+  vec3 i  = floor(v + dot(v, C.yyy) );
+  vec3 x0 =   v - i + dot(i, C.xxx) ;
 
-  vec3 grad_fbl = random_direction(fbl); 
-  vec3 grad_fbr = random_direction(fbr);
-  vec3 grad_ftl = random_direction(ftl); 
-  vec3 grad_ftr = random_direction(ftr);
-  vec3 grad_btr = random_direction(btr); 
-  vec3 grad_btl = random_direction(btl); 
-  vec3 grad_bbr = random_direction(bbr);
-  vec3 grad_bbl = random_direction(bbl);
+// Other corners
+  vec3 g = step(x0.yzx, x0.xyz);
+  vec3 l = 1.0 - g;
+  vec3 i1 = min( g.xyz, l.zxy );
+  vec3 i2 = max( g.xyz, l.zxy );
 
-  float dot_fbl = dot(dist_fbl, grad_fbl); 
-  float dot_fbr = dot(dist_fbr, grad_fbr);
-  float dot_ftl = dot(dist_ftl, grad_ftl); 
-  float dot_ftr = dot(dist_ftr, grad_ftr);
-  float dot_btr = dot(dist_btr, grad_btr); 
-  float dot_btl = dot(dist_btl, grad_btl); 
-  float dot_bbr = dot(dist_bbr, grad_bbr); 
-  float dot_bbl = dot(dist_bbl, grad_bbl); 
+  //  x0 = x0 - 0. + 0.0 * C 
+  vec3 x1 = x0 - i1 + 1.0 * C.xxx;
+  vec3 x2 = x0 - i2 + 2.0 * C.xxx;
+  vec3 x3 = x0 - 1. + 3.0 * C.xxx;
 
-  float wx = st.x - x;
-  float wy = st.y - y;
-  float wz = st.z - z ;
+// Permutations
+  i = mod(i, 289.0 ); 
+  vec4 p = permute( permute( permute( 
+             i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
+           + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
+           + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
 
-  float ix0 = dot_fbl + smooth_step(wx)*(dot_fbr - dot_fbl);
-  float ix1 = dot_ftl + smooth_step(wx)*(dot_ftr - dot_ftl);
-  float iy0 = ix0 + smooth_step(wy)*(ix1 - ix0);
-  float ix2 = dot_bbl + smooth_step(wx)*(dot_bbr - dot_bbl);
-  float ix3 = dot_btl + smooth_step(wx)*(dot_btr - dot_btl);
-  float iy1 = ix2 + smooth_step(wy)*(ix3 - ix2);
-  float iz0 = iy0 + smooth_step(wz)*(iy1 - iy0);
+// Gradients
+// ( N*N points uniformly over a square, mapped onto an octahedron.)
+  float n_ = 1.0/7.0; // N=7
+  vec3  ns = n_ * D.wyz - D.xzx;
 
-  return iz0 - (sqrt(3/4)); //since perlin noise returns values between -sqrt(3/4) and sqrt(3/4) according to this source http://digitalfreepen.com/2017/06/20/range-perlin-noise.html
-  /////////////////////////////////////////////////////////////////////////////
+  vec4 j = p - 49.0 * floor(p * ns.z *ns.z);  //  mod(p,N*N)
+
+  vec4 x_ = floor(j * ns.z);
+  vec4 y_ = floor(j - 7.0 * x_ );    // mod(j,N)
+
+  vec4 x = x_ *ns.x + ns.yyyy;
+  vec4 y = y_ *ns.x + ns.yyyy;
+  vec4 h = 1.0 - abs(x) - abs(y);
+
+  vec4 b0 = vec4( x.xy, y.xy );
+  vec4 b1 = vec4( x.zw, y.zw );
+
+  vec4 s0 = floor(b0)*2.0 + 1.0;
+  vec4 s1 = floor(b1)*2.0 + 1.0;
+  vec4 sh = -step(h, vec4(0.0));
+
+  vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+  vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+
+  vec3 p0 = vec3(a0.xy,h.x);
+  vec3 p1 = vec3(a0.zw,h.y);
+  vec3 p2 = vec3(a1.xy,h.z);
+  vec3 p3 = vec3(a1.zw,h.w);
+
+//Normalise gradients
+  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+  p0 *= norm.x;
+  p1 *= norm.y;
+  p2 *= norm.z;
+  p3 *= norm.w;
+
+// Mix final noise value
+  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+  m = m * m;
+  return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), 
+                                dot(p2,x2), dot(p3,x3) ) );
 }
-

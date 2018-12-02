@@ -12,7 +12,7 @@ float smooth_step( float f)
   if(f <= 0){
      return 0;
   }
-  if(f >= 0 && f <= 1 ){
+  if(f >= 0 && f <= 1.0 ){
      return (3*f*f) - (2*f*f*f); 
   }
   else{

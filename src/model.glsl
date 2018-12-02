@@ -16,11 +16,11 @@ mat4 model(bool is_sun, bool is_mercury, bool is_venus, bool is_earth, float tim
      return rotate_about_y(angle)*translate(vec3(2,0,0));
   }
   if(is_venus){
-     float angle = -time*M_PI/2;
+     float angle = -time*M_PI*1.5/4;
      return rotate_about_y(angle)*translate(vec3(3,0,0));
   } 
   if(is_earth){
-     float angle = -time*M_PI*3/4;
+     float angle = -time*M_PI*2/4;
      return rotate_about_y(angle)*translate(vec3(4,0,0));
   } 
   
