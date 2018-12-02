@@ -65,7 +65,7 @@ void main()
 	   	color = vec3(1, 1, 0)*cos(noise);
 	}
 	else if(val > 0.3){
-		color = vec3(1, 0, 0)*sin(noise + mod(animation_seconds, 30))*2;
+		color = vec3(1, 0, 0)*sin(noise + mod(animation_seconds, 30)+0.2)*2;
 	}
 	else{
 	  	color = vec3(1, 0, 0)*sin(noise)*2;
