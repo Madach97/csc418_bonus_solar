@@ -61,22 +61,21 @@ void main()
  if(is_sun){
 	float noise =  perlin_noise(sphere_fs_in) + 0.5*perlin_noise(2*sphere_fs_in) + 0.25*perlin_noise(4*sphere_fs_in);
 	float val = noise;
-    if(val > 0.5){
+    if(val > cos(mod(animation_seconds, 10)) + 1.5){
 	   	color = vec3(1, 1, 0)*cos(noise);
 	}
-	else if(val > 0.3){
-		color = vec3(1, 0, 0)*sin(noise + mod(animation_seconds, 30)+0.2)*2;
-	}
 	else{
-	  	color = vec3(1, 0, 0)*sin(noise)*2;
+	  	color = vec3(1, 0, 0)*sin(noise + 0.2*sin(animation_seconds))*2;
 	}
-
  }
- // color = vec3(0, 2, 0);
-   
 
- // float value = (6*(perlin_noise(vec3(2*x, y*(455+exp(x/99)+exp(z)), x*(x+(y*z)))))); //2*perlin_noise(vec3(exp(x*y), 2*x, -2*x+exp(z/5)));//perlin_noise(sphere_fs_in);
-  //color = rgb * (1 + 2*perlin_noise(vec3(exp(x*y), 2*x, -2*x+exp(z/5))) + (6*(perlin_noise(vec3(2*x, y*(455+exp(x/99)+exp(z)), x*(x+(y*y*z)))))));
-  /////////////////////////////////////////////////////////////////////////////
+ if(is_earth){
+ 	 color = rgb;
+	 float plain = perlin_noise(sphere_fs_in);
+	 float noise = perlin_noise((0.2+sin(animation_seconds))*sphere_fs_in);
+	 if(plain > 0.3){
+	 	 color = vec3(9/255.0, 140/255.0, 68/255.0)*plain;
+	 }
+ }
 
 }

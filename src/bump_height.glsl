@@ -14,6 +14,15 @@ float bump_height( bool is_moon, vec3 s)
   if(is_moon){
      scale = scale * 0.3;
   }
-  return (improved_perlin_noise(s)*scale) - 0.1; //since it is in the range 0 to 1 originally
+  if(is_earth){
+     scale = scale * 0.5;
+  }
+  else if(is_venus){
+	 scale = scale * 0.45;
+  }
+  else if(is_mercury){
+	 scale = scale * 0.3;
+  }
+  return (perlin_noise(s)*scale);
   /////////////////////////////////////////////////////////////////////////////
 }
