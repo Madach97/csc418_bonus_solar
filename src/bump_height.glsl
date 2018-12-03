@@ -6,14 +6,11 @@
 //   s  3D position of seed for noise generation
 // Returns elevation adjust along normal (values between -0.1 and 0.1 are
 //   reasonable.
-float bump_height( bool is_moon, vec3 s)
+float bump_height(bool is_earth, bool is_venus, bool is_sun, bool is_mercury, vec3 s)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
   float scale = 0.2;
-  if(is_moon){
-     scale = scale * 0.3;
-  }
   if(is_earth){
      scale = scale * 0.5;
   }

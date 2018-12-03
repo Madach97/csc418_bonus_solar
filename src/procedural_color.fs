@@ -22,7 +22,7 @@ void main()
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  vec4 light = vec4(100, 1, 100, 1);
+  vec4 light = vec4(0, 0, 100, 1);
   mat4 rotate =  mat4(
   cos(animation_seconds*M_PI/2), 0, sin(animation_seconds*M_PI/2),0,
     0,        1,    0,      0,
@@ -37,7 +37,7 @@ void main()
   vec3 l = normalize((view*model*light).xyz);
   vec3 v = normalize((-1*view_pos_fs_in).xyz);
   vec3 n = normalize(normal_fs_in);
-  float p = 500;
+  float p = 1000;
   vec3 ka = vec3(0, 0, 0);
   vec3 kd = vec3(0, 0, 1);
   if(is_earth){
@@ -75,7 +75,11 @@ void main()
 	 float noise = perlin_noise((0.2+sin(animation_seconds))*sphere_fs_in);
 	 if(plain > 0.3){
 	 	 color = vec3(9/255.0, 140/255.0, 68/255.0)*plain;
+		 color * rgb;
 	 }
+ }
+ if(!is_earth && !is_venus && !is_mercury && !is_sun){
+ 	 color = vec3(1, 1, 1);
  }
 
 }
