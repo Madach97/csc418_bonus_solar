@@ -1,4 +1,7 @@
 ## README
+Please run it with ```data/test-06.json```.
+
+The github source is at https://github.com/Madach97/csc418_bonus_solar 
 
 ### Radiosity Implementation
 
@@ -43,10 +46,10 @@ I implemented everything under the "basic" section and under the "Extended" sect
 * Add bump map to Earth
     * similar thing, but for the earth.
 * Create the shades for a Christmas decoration
-    * Change the theme of the video every, say, 20s so that it becomes Christmas laterns at that point in time. To do this:
-        * Check the animation seconds and mod the result by 40. Once the animation_Seconds mod 40 becomes 20, we know that we can switch scenes.
+    * Change the theme of the video every, say, 20 secs so that it becomes Christmas laterns at that point in time. To do this:
+        * Check the animation seconds and mod the result by 40. Once the animation_seconds mod 40 becomes 20, we know that we can switch scenes.
         * When the value is > 20 we are in the Christmas scene, so use the blinn phong shading to change the colour of the planets to the colour of a latern by manipulating the blue_grey function.
         * When it is <= 20, then it is in the solar mode and so they will be coloured as they are now.
 
-##### Notes: My perlin noise implementation from the assignment was a bit buggy so I used the code from the another source (as mentioned in the comments of the source code)
+##### Notes: My perlin noise implementation from the assignment was a bit buggy so I used the code from the another source https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83 . It is also mentioned in the source code. I was inspired by the ways of interpolating perlin noise from https://www.redblobgames.com/maps/terrain-from-noise/#ridged . The source code mentions this. 
 
