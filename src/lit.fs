@@ -22,9 +22,7 @@ void main()
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
   vec4 light = vec4(0, 0, 1, 0);
-  if(is_sun){
-  	  light = vec4(0,0,-1,1);
-  }
+  
   mat4 rotate_y =  mat4(
 	  cos(M_PI), sin(M_PI), 0, 0,
 	  -sin(M_PI), cos(M_PI), 0, 0,
@@ -36,7 +34,8 @@ void main()
 	  0,0,1,0,
 	  0,0,0,1);;
   if(is_mercury){
-     float angle = -1*animation_seconds*M_PI/4;
+     light =  vec4(sphere_fs_in, 1);
+     float angle = animation_seconds*M_PI/4;
 	  mat4 rotate =  mat4(
 	  cos(angle), 0, sin(angle),0,
 		0,        1,    0,      0,
@@ -46,7 +45,7 @@ void main()
 	  1,0,0,0,
 	  0,1,0,0,
 	  0,0,1,0,
-	  0,0,-0.1,1);
+	  0,0,0,1);
 	  model = rotate*translate;
   }
   if(is_venus){
@@ -77,7 +76,7 @@ void main()
 	  1,0,0,0,
 	  0,1,0,0,
 	  0,0,1,0,
-	  0,0,-0.1,1);
+	  0,0,0,1);
 	  model = translate*rotate*rotate_y;
   }
   

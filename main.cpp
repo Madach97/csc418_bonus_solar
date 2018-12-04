@@ -275,7 +275,7 @@ Usage:
     }
 
     // clear screen and set viewport
-    glClearColor(0,0,0,0);
+    glClearColor(0,0,0,1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glfwGetFramebufferSize(window, &::width, &::height);
     glViewport(0,0,::width,::height);
@@ -290,6 +290,9 @@ Usage:
         last_time = now;
       }
       glUniform1f(glGetUniformLocation(prog_id,"animation_seconds"),animation_seconds);
+	  if (fmod(animation_seconds, 40) == 0) {
+		  glClearColor(0, 0, 1, 1);
+	  }
     }
     glUniformMatrix4fv(
       glGetUniformLocation(prog_id,"proj"),1,false,proj.data());
