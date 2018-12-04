@@ -61,7 +61,7 @@ void main()
  if(is_sun){
     // this sort of linear interpolation like 0.5*(perlin_noise(2*sphere_fs_in)) was inspired from https://www.redblobgames.com/maps/terrain-from-noise/#ridged
 	float noise =  perlin_noise(sphere_fs_in) + 0.5*perlin_noise(2*sphere_fs_in) + 0.25*perlin_noise(4*sphere_fs_in);
-    // but the interpolation of the time and using sin is my own.
+    // but the interpolation of the animation_seconds and using sin is my own.
 	float val = noise;
     if(val > cos(mod(animation_seconds, 10)) + 1.5){
 	   	color = vec3(1, 1, 0)*cos(noise);
