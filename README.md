@@ -8,13 +8,13 @@ The github source is at https://github.com/Madach97/csc418_bonus_solar
 * Originally, I set out to implement radiosity by extending theray tracer from assignment 3. While interesting, this turned out to be more ambitious than expected and hence I resorted to the solar system delineated below. Regardless, I did quite a bit of research on radiosity and based on it, the implementation route I would have taken would be:
   Suppose I were to incorporate radiosity in a scene with a couple spheres, one red and one green then:
     * First, split the spheres into smaller patches. I would do this by creating a mesh.
-    *  Iterate through each patch of the red (or the green) sphere and compute the view factor of it with respect to each of the green (or red if green sphere was chosen first) patches. The formula is as in the image below.
+    *  Iterate through each patch of the red (or the green) sphere and compute the view factor of it with respect to each of the green (or red if green sphere was chosen first) patches. The formula is as in the image below (also in the github repo as form_factor.jpg).
     ![](form_factor.jpg)
     * The visibility on the above equation is 1 for the surfaces that the ray tracer hots first and 0 for shadows (and obviously surfaces it does not touch)
     * calculate the usual blinn phong shading of the objects.
     * Bounce off the light ray form the sphere to the other sphere and set the proportion of the light reaching the other sphere based on the view factors.
     * Repeat it for 3 bounces
-    * Calculate the colour based in the factor form values computed.
+    * Calculate the colour based on the factor form values computed.
     * Finally use catmull clark to smooth the meshes to a sphere.
 
     I refered to the following sources extensively
